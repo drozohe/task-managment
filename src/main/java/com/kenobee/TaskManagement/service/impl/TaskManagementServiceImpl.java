@@ -34,7 +34,7 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
         //[drozo] Obtener la colección de documentos
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = getCollection().get();
-        
+
         try {
             //[drozo] Por cada documento agregarlo a la lista...
             for (DocumentSnapshot doc : querySnapshotApiFuture.get().getDocuments()) {
@@ -48,7 +48,6 @@ public class TaskManagementServiceImpl implements TaskManagementService {
         }
     }
 
-    
     @Override
     public Boolean add(TaskDTO post) {
 
@@ -60,7 +59,7 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
         try {
             //[drozo] Verificar si fue posible escribir el documento
-            if (writeResultApiFuture.get() != null ) {
+            if (writeResultApiFuture.get() != null) {
                 return Boolean.TRUE;
             }
             return Boolean.FALSE;
@@ -71,8 +70,18 @@ public class TaskManagementServiceImpl implements TaskManagementService {
     }
 
     @Override
-    public Boolean edit(String id, TaskDTO post) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean edit(String id, TaskDTO task) {
+        Map<String, Object> docData = getDocData(task);
+        ApiFuture<WriteResult> writeResultApiFuture = getCollection().document(id).set(docData);
+        
+        try {
+            if (null != writeResultApiFuture.get()) {
+                return Boolean.TRUE;
+            }
+            return Boolean.FALSE;
+        } catch (Exception e) {
+            return Boolean.FALSE;
+        }
     }
 
     @Override
@@ -87,13 +96,13 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
     //[drozo] 
     private Map<String, Object> getDocData(TaskDTO task) {
-        
+
         Map<String, Object> docData = new HashMap<>();
-        
+
         //
         docData.put("title", task.getTitle());
         docData.put("content", task.getContent());
-        
+
         return docData;
     }
 
