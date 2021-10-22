@@ -5,4 +5,4 @@ Creación de un servicio web **RESTful** con un CRUD básico completo, con un mo
 
 # Modelo de datos
 
-![image info](./pictures/imageFirebase1.png)
+![image info](./images/imageFirebase1.png)
