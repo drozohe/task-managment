@@ -2,10 +2,13 @@ package com.kenobee.TaskManagement.service.impl;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.kenobee.TaskManagement.firebase.FireBaseInitializer;
 import com.kenobee.TaskManagement.dto.TaskDTO;
 import com.kenobee.TaskManagement.service.TaskManagementService;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,23 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
     @Override
     public List<TaskDTO> list() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<TaskDTO> response = new ArrayList<>();
+        TaskDTO task;
+
+        //[drozo] Obtener la colección de documentos
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = getCollection().get();
+        
+        try {
+            //[drozo] Por cada documento agregarlo a la lista...
+            for (DocumentSnapshot doc : querySnapshotApiFuture.get().getDocuments()) {
+                task = doc.toObject(TaskDTO.class);//[drozo] Tansformar el documento a tipo Task
+                task.setId(doc.getId()); //[drozo] obtener el id
+                response.add(task);
+            }
+            return response;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     

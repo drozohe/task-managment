@@ -35,4 +35,9 @@ public class TaskController {
     public ResponseEntity add(@RequestBody TaskDTO post){
         return new ResponseEntity(service.add(post), HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/list")
+    public ResponseEntity list(){
+        return new ResponseEntity(service.list(), HttpStatus.OK);
+    }
 }
