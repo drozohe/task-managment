@@ -86,7 +86,15 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
     @Override
     public Boolean delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ApiFuture<WriteResult> writeResultApiFuture = getCollection().document(id).delete();
+        try {
+            if(null != writeResultApiFuture.get()){
+                return Boolean.TRUE;
+            }
+            return Boolean.FALSE;
+        } catch (Exception e) {
+            return Boolean.FALSE;
+        }
     }
 
     //[drozo] Obtener la coleccion de cloudstore

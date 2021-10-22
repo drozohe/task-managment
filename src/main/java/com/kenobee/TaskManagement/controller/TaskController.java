@@ -6,6 +6,7 @@ import com.kenobee.TaskManagement.service.TaskManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,12 @@ public class TaskController {
     public ResponseEntity edit(@PathVariable(value = "id") String id, @RequestBody TaskDTO task){
         return new ResponseEntity(service.edit(id,task), HttpStatus.OK);
     }
+    
+     @DeleteMapping(value = "/{id}/delete")
+    public ResponseEntity delete(@PathVariable(value = "id") String id){
+        return  new ResponseEntity(service.delete(id), HttpStatus.OK);
+    }
+
     
     
 }
