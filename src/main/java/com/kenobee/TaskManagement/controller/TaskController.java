@@ -21,17 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "/tasks")
+@RequestMapping(value = "/tasks/v1")
 public class TaskController {
     
     //[drozo] inyectar el servicio dentro del controlador, a traves de la interface accedo a la implementación.
     @Autowired
     private TaskManagementService service;
     
-    @GetMapping(value = "/greet/{name}")
-    public String greet(@PathVariable(value = "name") String name){
-        return  "Hello, "+name;
-    }
+    @GetMapping(value = "/greet")
+    public String greet(){
+        return  "Hello desde spring boot ";
+    }    
+    
     
     @PostMapping(value = "/add")
     public ResponseEntity add(@RequestBody TaskDTO post){
@@ -51,7 +52,7 @@ public class TaskController {
      @DeleteMapping(value = "/{id}/delete")
     public ResponseEntity delete(@PathVariable(value = "id") String id){
         return  new ResponseEntity(service.delete(id), HttpStatus.OK);
-    }
+    }    
 
     
     
